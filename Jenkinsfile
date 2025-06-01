@@ -1,7 +1,9 @@
 pipeline {
     agent any
     environment {
-        PATH = "${env.PATH}:/usr/bin/python3"
+        JAVA_HOME = isUnix() ? '/usr/bin/java' : 'C:\\Program Files\\Java\\jdk1.8.0_202'
+        PYTHON_HOME = isUnix() ? '/usr/bin/python3' : 'C:\\Users\\rehou\\AppData\\Local\\Programs\\Python\\Python39'
+        PATH = isUnix() ? "${env.PATH}:${JAVA_HOME}/bin:/usr/bin" : "${env.PATH};${JAVA_HOME}\\bin;${PYTHON_HOME}"
     }
     stages {
         stage('Checkout') {
@@ -13,17 +15,16 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'echo "Running on Unix"'
-                        // Add your Unix-specific build commands here
-                        sh 'javac HelloWorld.java'
-                        sh 'java HelloWorld'
-                        sh 'python3 hello.py'
+                            sh 'echo "Running on Unix"'
+                            sh 'javac HelloWorld.java'
+                            sh 'java HelloWorld'
+                            sh 'python3 hello.py'
+                        
                     } else {
-                        bat 'echo "Running on Windows"'
-                        // Add your Windows-specific build commands here
-                        bat 'javac HelloWorld.java'
-                        bat 'java HelloWorld'
-                        bat 'python3 hello.py'
+                            bat 'echo "Running on Windows"'
+                            bat 'javac HelloWorld.java'
+                            bat 'java HelloWorld'
+                            bat 'python hello.py'
                     }
                 }
             }
