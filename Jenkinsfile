@@ -22,6 +22,7 @@ pipeline {
                         
                     } else {
                             bat 'echo "Running on Windows"'
+                            bat 'echo "Set environment variables for windows"'
                             bat 'javac HelloWorld.java'
                             bat 'java HelloWorld'
                             bat 'python hello.py'
